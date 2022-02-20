@@ -1,0 +1,44 @@
+apt-get install nodejs -y
+apt-get install mariadb-server -y
+apt-get install npm -y
+
+
+npm install mysql2
+npm install express
+npm install body-parser
+npm install nodemon -g
+
+
+[mariadb]
+log-bin
+server_id=1
+
+
+create user 'replica1'@'%' identified by 'replica1';
+GRANT ALL PRIVILEGES ON *.* TO 'replica1'@'%';
+grant replication slave on *.* to 'replica1'@'%';
+
+create user 'replica2'@'%' identified by 'replica2';
+GRANT ALL PRIVILEGES ON *.* TO 'replica2'@'%';
+grant replication slave on *.* to 'replica2'@'%';
+
+
+STOP SLAVE;
+CHANGE MASTER TO MASTER_HOST='34.67.111.106', MASTER_USER='replica1', MASTER_PASSWORD='replica1', MASTER_LOG_FILE='mysqld-bin.000003', MASTER_LOG_POS=8481;
+
+CHANGE MASTER TO MASTER_HOST='34.134.97.183', MASTER_USER='replica2', MASTER_PASSWORD='replica2', MASTER_LOG_FILE='mysqld-bin.000005', MASTER_LOG_POS=6450;
+START SLAVE;
+
+
+CREATE TABLE Users (
+  Username varchar(255) NOT NULL PRIMARY KEY
+);
+
+
+34.67.111.106
+34.134.97.183
+
+
+
+https://hevodata.com/learn/mysql-master-master-replication/#s1
+http://woshub.com/configure-mariadb-replication/
