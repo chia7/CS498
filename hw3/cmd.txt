@@ -1,0 +1,15 @@
+apt install default-jdk
+apt install wget
+
+wget https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
+tar -zxvf spark-3.2.1-bin-hadoop3.2.tgz
+mv spark-3.2.1-bin-hadoop3.2 /opt/spark
+
+vim ~/.bashrc
+
+export SPARK_HOME=/opt/spark
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+apt install python3-pip
+pip3 install pyspark
+pip3 install findspark
