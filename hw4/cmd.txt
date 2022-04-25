@@ -1,0 +1,17 @@
+apt-get install python-dev libsasl2-dev gcc
+apt install python3-pip
+pip3 install flask
+pip3 install sasl
+pip3 install thrift
+pip3 install thrift-sasl
+pip3 install PyHive
+
+gsutil ls gs://hive-hw4/
+beeline -u jdbc:hive2://localhost:10000/default -n chiachi102@cluster-0691-m -d org.apache.hive.jdbc.HiveDriver
+
+CREATE EXTERNAL TABLE webSearch (term VARCHAR(100), clicks map<String, BIGINT>)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY '~'
+MAP KEYS TERMINATED BY ':'
+LOCATION 'gs://hive-hw4/';
